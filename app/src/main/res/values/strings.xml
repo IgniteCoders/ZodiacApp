@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">ZodiacApp</string>
+
+    <string name="horoscope_name_aries">Aries</string>
+    <string name="horoscope_name_taurus">Taurus</string>
+    <string name="horoscope_name_gemini">Gemini</string>
+    <string name="horoscope_name_cancer">Cancer</string>
+    <string name="horoscope_name_leo">Leo</string>
+    <string name="horoscope_name_virgo">Virgo</string>
+    <string name="horoscope_name_libra">Libra</string>
+    <string name="horoscope_name_scorpio">Scorpio</string>
+    <string name="horoscope_name_sagittarius">Sagittarius</string>
+    <string name="horoscope_name_capricorn">Capricorn</string>
+    <string name="horoscope_name_aquarius">Aquarius</string>
+    <string name="horoscope_name_pisces">Pisces</string>
+
+    <string name="horoscope_date_aries">March 21 to April 19</string>
+    <string name="horoscope_date_taurus">April 20 to May 20</string>
+    <string name="horoscope_date_gemini">May 21 to June 20</string>
+    <string name="horoscope_date_cancer">June 21 to July 22</string>
+    <string name="horoscope_date_leo">July 23 to August 22</string>
+    <string name="horoscope_date_virgo">August 23 to September 22</string>
+    <string name="horoscope_date_libra">September 23 to October 22</string>
+    <string name="horoscope_date_scorpio">October 23 to November 21</string>
+    <string name="horoscope_date_sagittarius">November 22 to December 21</string>
+    <string name="horoscope_date_capricorn">December 22 to January 19</string>
+    <string name="horoscope_date_aquarius">January 20 to February 18</string>
+    <string name="horoscope_date_pisces">February 19 to March 20</string>
 </resources>
