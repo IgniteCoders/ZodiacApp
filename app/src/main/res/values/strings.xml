@@ -26,4 +26,9 @@
     <string name="horoscope_date_capricorn">December 22 to January 19</string>
     <string name="horoscope_date_aquarius">January 20 to February 18</string>
     <string name="horoscope_date_pisces">February 19 to March 20</string>
+
+
+    <string name="menu_search">Search</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_favorite">Favorite</string>
 </resources>
