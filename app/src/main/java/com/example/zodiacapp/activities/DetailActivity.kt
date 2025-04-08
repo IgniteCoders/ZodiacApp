@@ -1,6 +1,7 @@
 package com.example.zodiacapp.activities
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -16,6 +17,7 @@ import com.example.zodiacapp.R
 import com.example.zodiacapp.data.Horoscope
 import com.example.zodiacapp.data.HoroscopeProvider
 import com.example.zodiacapp.utils.SessionManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
     lateinit var iconImageView: ImageView
     lateinit var horoscopeLuckTextView: TextView
     lateinit var progressBar: LinearProgressIndicator
+    lateinit var navigationBar: BottomNavigationView
 
     lateinit var session: SessionManager
     lateinit var horoscope: Horoscope
@@ -43,11 +46,13 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_detail)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
         }
 
@@ -58,6 +63,7 @@ class DetailActivity : AppCompatActivity() {
         iconImageView = findViewById(R.id.iconImageView)
         horoscopeLuckTextView = findViewById(R.id.horoscopeLuckTextView)
         progressBar = findViewById(R.id.progressBar)
+        navigationBar = findViewById(R.id.navigationBar)
 
         val id = intent.getStringExtra("HOROSCOPE_ID")!!
 
@@ -65,9 +71,24 @@ class DetailActivity : AppCompatActivity() {
 
         isFavorite = session.getFavoriteHoroscope() == horoscope.id
 
+        supportActionBar?.setTitle(horoscope.name)
+        supportActionBar?.setSubtitle(horoscope.dates)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         nameTextView.setText(horoscope.name)
         datesTextView.setText(horoscope.dates)
         iconImageView.setImageResource(horoscope.icon)
+
+        navigationBar.setOnItemSelectedListener { menuItem ->
+            val period = when(menuItem.itemId) {
+                R.id.menu_daily -> "daily"
+                R.id.menu_weekly -> "weekly"
+                R.id.menu_monthly -> "monthly"
+                else -> "daily"
+            }
+            getHoroscopeLuck(period)
+            true
+        }
 
         getHoroscopeLuck()
     }
@@ -83,6 +104,10 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
             R.id.menu_favorite -> {
                 if (isFavorite) {
                     session.setFavoriteHoroscope("")
@@ -118,11 +143,11 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    fun getHoroscopeLuck() {
+    fun getHoroscopeLuck(period: String = "daily") {
         progressBar.visibility = View.VISIBLE
 
         CoroutineScope(Dispatchers.IO).launch {
-            val url = URL("https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${horoscope.id}")
+            val url = URL("https://horoscope-app-api.vercel.app/api/v1/get-horoscope/${period}?sign=${horoscope.id}")
 
             // HTTP Connexion
             val urlConnection = url.openConnection() as HttpsURLConnection
